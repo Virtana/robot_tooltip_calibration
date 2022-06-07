@@ -6,18 +6,18 @@ using UnityEngine;
 
 //namespace UnityTipsTricks
 //{
-	public class newcamscript : MonoBehaviour
+	public class camscript : MonoBehaviour
 	{
 		public int superSize = 2;
 		private int _shotIndex = 0;
 
-        IEnumerator SpawnCoroutine()
+        IEnumerator PictureCoroutine()
         {
             while(true)
             {
                 
 			   
-			    ScreenCapture.CaptureScreenshot($"Image{_shotIndex}.png", superSize);
+			    ScreenCapture.CaptureScreenshot($"Images/Image{_shotIndex}.png", superSize);
 		        _shotIndex++;
                 Debug.Log("PIcture taken");
                 yield return new WaitForSeconds(1.0f);
@@ -27,7 +27,7 @@ using UnityEngine;
 
         private void Start()
 		{
-			StartCoroutine(SpawnCoroutine());
+			StartCoroutine(PictureCoroutine());
 		}
 
 		private void Update()
