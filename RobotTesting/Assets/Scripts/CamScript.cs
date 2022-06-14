@@ -6,35 +6,35 @@ using UnityEngine;
 public class CamScript : MonoBehaviour{
 
   private int _imageNumber;	
+  private Texture2D _camView;
+  private Camera _overHeadCam;
 
-  void getCamView(){
+  void GetCamView(){
 
-    Camera overHeadCam = GetComponent<Camera>();
+    RenderTexture currentRenText = RenderTexture.active;
+	  RenderTexture.active = _overHeadCam.targetTexture;
 
-	RenderTexture currentRenText = RenderTexture.active;
-	RenderTexture.active = overHeadCam.targetTexture;
+	  _overHeadCam.Render();
 
-	overHeadCam.Render();
+	  _camView = new Texture2D(_overHeadCam.targetTexture.width ,
+	                        _overHeadCam.targetTexture.height);
+							
+	  _camView.ReadPixels(new Rect(0,0, _overHeadCam.targetTexture.width,
+	                              _overHeadCam.targetTexture.height),0,0);
+	  _camView.Apply();
+	  RenderTexture.active = currentRenText;
 
-	Texture2D camView = new Texture2D(overHeadCam.targetTexture.width ,overHeadCam.targetTexture.height);
-	camView.ReadPixels(new Rect(0,0, overHeadCam.targetTexture.width,overHeadCam.targetTexture.height),0,0);
-	camView.Apply();
-	RenderTexture.active = currentRenText;
+	  var Bytes= _camView.EncodeToJPG();
 
-	var Bytes= camView.EncodeToJPG();
-	Destroy(camView);
-
-	File.WriteAllBytes(Application.dataPath + "/Images/" + _imageNumber + ".jpg", Bytes );
-	_imageNumber++;
-
+	  File.WriteAllBytes(Application.dataPath + "/Images/" + _imageNumber + ".jpg", Bytes );
+	  _imageNumber++;
   }
 
-  private void Start()
-  {
-
-    InvokeRepeating("getCamView", 1.0f , 1.0f);   
-        //Starting the repeating function that takes pictures
-
+  private void Start(){
+    _overHeadCam = GetComponent<Camera>();
+    
+    //Starting the repeating function that takes pictures
+    InvokeRepeating("GetCamView", 1.0f , 2.0f);   
   }
 
 }
