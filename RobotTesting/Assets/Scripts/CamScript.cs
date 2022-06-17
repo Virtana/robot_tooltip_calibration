@@ -23,7 +23,7 @@ public class CamScript : MonoBehaviour{
 
     byte[] bytes = _camView.EncodeToJPG();
 
-    File.WriteAllBytes( "Images/Image" + _imageNumber + ".jpg" , Bytes );
+    File.WriteAllBytes( "Images/Image" + _imageNumber + ".jpg" , bytes );
     _imageNumber++; 
   }
 
