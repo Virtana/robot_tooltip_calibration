@@ -13,27 +13,28 @@ public class CamScript : MonoBehaviour{
     RenderTexture currentRenText = RenderTexture.active;
     RenderTexture.active = _overHeadCam.targetTexture;
 
-	  _overHeadCam.Render();
+    _overHeadCam.Render();
 
-	  _camView = new Texture2D(_overHeadCam.targetTexture.width ,
-	                        _overHeadCam.targetTexture.height);
-							
-	  _camView.ReadPixels(new Rect(0,0, _overHeadCam.targetTexture.width,
-	                              _overHeadCam.targetTexture.height),0,0);
-	  _camView.Apply();
-	  RenderTexture.active = currentRenText;
+    _camView.ReadPixels(new Rect(0,0, _overHeadCam.targetTexture.width,
+                                 _overHeadCam.targetTexture.height),0,0);
 
-	  byte[] Bytes= _camView.EncodeToJPG();
+    _camView.Apply();
+    RenderTexture.active =currentRenText;
 
-	  File.WriteAllBytes(Application.dataPath + "/Images/" + _imageNumber + ".jpg", Bytes );
-	  _imageNumber++;
+    byte[] Bytes = _camView.EncodeToJPG();
+
+    File.WriteAllBytes( "Images/Image" + _imageNumber + ".jpg" , Bytes );
+    _imageNumber++; 
   }
 
   private void Start(){
     _overHeadCam = GetComponent<Camera>();
-    
+     
+    _camView = new Texture2D(_overHeadCam.targetTexture.width ,
+	                        _overHeadCam.targetTexture.height);
+		
     //Starting the repeating function that takes pictures
     InvokeRepeating("GetCamView",1.0f,2.0f);   
   }
-
+  
 }
