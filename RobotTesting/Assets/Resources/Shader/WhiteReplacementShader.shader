@@ -4,13 +4,12 @@ Shader "Unlit/WhiteReplacementShader" {
   }
   
   SubShader {
-    Tags { "RenderType"="Opaque" } //Subshader with same tag "MyTag"
+    Tags { "RenderType"="Opaque" } 
     
     Pass {
       CGPROGRAM
       #pragma vertex vert
       #pragma fragment frag
-        
         
       #pragma shader_feature WORLD_NORMAL_VIS
       #include "UnityCG.cginc"
@@ -30,7 +29,7 @@ Shader "Unlit/WhiteReplacementShader" {
       }
       
       fixed4 frag () : SV_Target {
-        return fixed4(1,1,1,1);  //Whire colour of marker
+        return fixed4(1,1,1,1);  //White colour of marker
       }
       ENDCG
     }

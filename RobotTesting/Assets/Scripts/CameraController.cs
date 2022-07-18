@@ -36,11 +36,14 @@ public class CameraController : MonoBehaviour{
   private void Start(){
     _overHeadCam = GetComponent<Camera>();
     Shader replacementShader = Resources.Load<Shader>("Shader/WhiteReplacementShader");
+    //  _overHeadCam.cullingMask = -1; //Sets the culling maks to everything
      
     //If the tick box is selected in the inspector, the replacement shader is loaded for cam
     if (MaskOn) {
+
       _filePath = "MaskedImages/MaskedImage";
       _overHeadCam.SetReplacementShader( replacementShader , "RenderType");
+      _overHeadCam.cullingMask = LayerMask.GetMask("MarkerTip") ;
 
       InitilaiseDirectories();
       //The directories need to be checked first, does not matter if it checked in the masked
@@ -60,7 +63,6 @@ public class CameraController : MonoBehaviour{
     if (!Directory.Exists("MaskedImages")) {
       Directory.CreateDirectory("MaskedImages");
     }
-    
 
     if (!Directory.Exists("Images")) {
       Directory.CreateDirectory("Images");
