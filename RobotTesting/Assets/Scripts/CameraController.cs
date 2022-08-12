@@ -36,7 +36,8 @@ public class CameraController : MonoBehaviour{
   private Camera _overHeadCam;
   private string _imageFilePath ;
   
-  void GetCamView(){
+
+  void GetCamView() {
     RenderTexture currentRenText = RenderTexture.active;
     RenderTexture.active = _overHeadCam.targetTexture;
 
@@ -82,11 +83,19 @@ public class CameraController : MonoBehaviour{
 
     //If the tick box is selected in the inspector, the replacement shader is loaded for cam
     if (MaskOn) {
+
       _imageFilePath = "MaskedImages/MaskedImage";
-      //_overHeadCam.SetReplacementShader(ReplacShaderWhite, "RenderQueue");
+      Shader replacementShader = Resources.Load<Shader>("Shader/WhiteReplacementShader");
+      _overHeadCam.cullingMask = LayerMask.GetMask("MarkerTip") ;
+
+      InitilaiseDirectories();
+      //The directories need to be checked first, does not matter if it checked in the masked
+      //script or regular, just only once , ie not twice across the two scripts of the camera
+
     } else {
-      _imageFilePath = "Images/Image";  
-    } 
+      _imageFilePath = "Images/Image";
+    }
+
     _camView = new Texture2D(_overHeadCam.targetTexture.width ,_overHeadCam.targetTexture.height);
 		
     //Starting the repeating function that takes pictures
@@ -132,5 +141,16 @@ public class CameraController : MonoBehaviour{
       File.Delete(@"coords.txt");
     }
     //Deletes the coordinates file if it already exists
+  }
+  void InitilaiseDirectories(){ 
+    if (!Directory.Exists("MaskedImages")) {
+      Directory.CreateDirectory("MaskedImages");
+    }
+
+
+    if (!Directory.Exists("Images")) {
+      Directory.CreateDirectory("Images");
+    }
+    //creates the directory if it doesnt exist
   }
 }
