@@ -123,6 +123,8 @@ public class CameraController : MonoBehaviour{
     else {
       return false;
     }
+    //TODO : Change file length check from being hardcoded to reading file size from a dummy image
+    //with no pixels (full black image )
   }
 
   private void InitialiseFiles(){
