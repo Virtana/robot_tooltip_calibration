@@ -9,8 +9,9 @@ public class CameraController : MonoBehaviour{
   public bool MaskOn;
   //Bool set in inspector to control if camera is masker or main
 
-  public Shader ReplacShaderWhite;
+  //public Shader ReplacShaderWhite;
   //Shader with Ids used to replace robot and marker selectively
+  //No longer set in editor as shader is loaded with line 89
 
   public GameObject ToolTipObj;
   //Small sphere on end of tooltip that is used to track tooltip
@@ -86,6 +87,7 @@ public class CameraController : MonoBehaviour{
 
       _imageFilePath = "MaskedImages/MaskedImage";
       Shader replacementShader = Resources.Load<Shader>("Shader/WhiteReplacementShader");
+      _overHeadCam.SetReplacementShader( replacementShader , "RenderType");
       _overHeadCam.cullingMask = LayerMask.GetMask("MarkerTip") ;
 
       InitilaiseDirectories();
@@ -146,7 +148,6 @@ public class CameraController : MonoBehaviour{
     if (!Directory.Exists("MaskedImages")) {
       Directory.CreateDirectory("MaskedImages");
     }
-
 
     if (!Directory.Exists("Images")) {
       Directory.CreateDirectory("Images");
