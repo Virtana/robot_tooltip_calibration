@@ -41,7 +41,11 @@ public class RobotController : MonoBehaviour{
       _newAngle = float.Parse( _angleValues[i] , CultureInfo.InvariantCulture.NumberFormat );
       JointGoalsDeg[i] = _newAngle ;
     }
-    _posnChanger++;
+    
+    Debug.Log(_textLines.Length);
+    if (_posnChanger > _textLines.Length){
+      Debug.Break();
+    }
   }
 
   private void Awake(){
