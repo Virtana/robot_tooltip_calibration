@@ -12,7 +12,7 @@ using System.Globalization;
 public class RobotController : MonoBehaviour{
   public ArticulationConfiguration ArticulationConfig;
   public float MaxJointVelDeg = 300;
-  public float[] JointGoalsDeg = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+  public float[] JointGoalsDeg = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
   public float[] CurrentAnglesRad;
   public float[] CurrJointVelRad;    //actual velocity
   public bool GoalReached;
@@ -36,16 +36,12 @@ public class RobotController : MonoBehaviour{
     //Reads every 5 values of Textlines into the angles for joints, seperated by a comma 
     _angleValues = _textLines[_posnChanger].Split(",");
 
-    for (int i=0; i<5; i++){
+    for (int i=0; i<_numJoints; i++){
       //Takes the read angle from the csv and converts to float,then inserts into angle array
       _newAngle = float.Parse( _angleValues[i] , CultureInfo.InvariantCulture.NumberFormat );
       JointGoalsDeg[i] = _newAngle ;
     }
-    
-    Debug.Log(_textLines.Length);
-    if (_posnChanger > _textLines.Length){
-      Debug.Break();
-    }
+    _posnChanger++;
   }
 
   private void Awake(){

@@ -55,7 +55,7 @@ public class CameraController : MonoBehaviour{
     //If the tick box is selected in the inspector, then the path is changed accordingly
     File.WriteAllBytes( _imageFilePath + _imageNumber + ".jpg" , bytes );
 
-    if (!MaskOn) {
+    if (MaskOn) {
       if (ToolTipVisible()) {
         GetCoords();
       } else {
@@ -101,7 +101,7 @@ public class CameraController : MonoBehaviour{
     _camView = new Texture2D(_overHeadCam.targetTexture.width ,_overHeadCam.targetTexture.height);
 		
     //Starting the repeating function that takes pictures
-    InvokeRepeating("GetCamView",1.5f,3.0f);   
+    InvokeRepeating("GetCamView",1.5f , 3.0f);   
   }
 
   private void GetCoords(){
